@@ -1645,6 +1645,52 @@
     }
 
     /* FABs */
+    .scroll-to-top {
+      position: fixed;
+      bottom: 152px;
+      right: 24px;
+      z-index: 800;
+      width: 50px;
+      height: 50px;
+      background: var(--green-dark);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(26, 122, 60, 0.4);
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(100px);
+      transition: all 0.4s ease;
+      border: 2px solid var(--green);
+      color: white;
+    }
+
+    .scroll-to-top.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .scroll-to-top:active {
+      background: var(--green);
+      transform: translateY(-4px) scale(0.95);
+    }
+
+    .scroll-to-top svg {
+      width: 24px;
+      height: 24px;
+      animation: bounceUp 1.5s ease-in-out infinite;
+    }
+
+    @keyframes bounceUp {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-6px);
+      }
+    }
+
     .whatsapp-fab {
       position: fixed;
       bottom: 88px;
@@ -2356,6 +2402,9 @@
   </footer>
 
   <!-- FABs -->
+  <div class="scroll-to-top" id="scrollToTop" onclick="scrollToHero()">
+    <i data-lucide="arrow-up"></i>
+  </div>
   <a href="https://wa.me/250785241327" class="whatsapp-fab" title="WhatsApp"><i data-lucide="message-circle"></i></a>
   <a href="#contact" class="fab"><i data-lucide="calendar-plus"></i><span data-i18n="book_now">Saba Serivisi</span></a>
 
@@ -2500,10 +2549,12 @@
         container.appendChild(el);
       }
 
-      // Navbar scroll
+      // Navbar scroll & scroll-to-top button
       const navbar = document.getElementById('navbar');
+      const scrollToTopBtn = document.getElementById('scrollToTop');
       window.addEventListener('scroll', () => {
         navbar.classList.toggle('scrolled', window.scrollY > 80);
+        scrollToTopBtn.classList.toggle('visible', window.scrollY > 500);
       }, { passive: true });
 
       // Parallax
@@ -2530,6 +2581,11 @@
         });
       });
     });
+
+    // Scroll to top function
+    function scrollToHero() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
     // Menu filter
     function filterMenu(cat, btnEl) {
